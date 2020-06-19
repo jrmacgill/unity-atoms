@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Sirenix.Utilities;
-using UniRx;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 /// SPDX-License-Identifier: MIT
 namespace UnityAtoms.Examples
@@ -28,12 +24,24 @@ namespace UnityAtoms.Examples
 
             void VarAddedHandler(AtomBaseVariable baseVar)
             {
-                proxies.Where(p => p.key() == baseVar.Id).ForEach(p => p.registerMe(baseVar));
+                foreach (var proxy in proxies)
+                {
+                    if (proxy.key() == baseVar.Id)
+                    {
+                        proxy.registerMe(baseVar);
+                    }
+                }
             }
 
             void VarRemovedHandler(AtomBaseVariable baseVar)
             {
-                proxies.Where(p => p.key() == baseVar.Id).ForEach(p => p.unregisterMe(baseVar));
+                foreach (var proxy in proxies)
+                {
+                    if (proxy.key() == baseVar.Id)
+                    {
+                        proxy.unregisterMe(baseVar);
+                    }
+                }
             }
 
             itemDataCollection.Added.Register(VarAddedHandler);

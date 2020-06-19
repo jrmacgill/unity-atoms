@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.6117647, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -85,7 +86,10 @@ GameObject:
   - component: {fileID: 5962985845040392313}
   - component: {fileID: 5962985845040392294}
   - component: {fileID: 672736024155512211}
+  - component: {fileID: -4901782595558187642}
   - component: {fileID: 1195006272440714522}
+  - component: {fileID: 5438755863303356224}
+  - component: {fileID: -6724529810899315795}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -136,6 +140,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.14901961, g: 0.14901961, b: 0.14901961, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -162,13 +167,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialHealth:
-    _usage: 0
+    _usage: 2
     _value: 0
     _constant: {fileID: 0}
-    _variable: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 16bf069429937474390ce1ed7d17a8bf, type: 2}
     _variableInstancer: {fileID: 0}
   _image: {fileID: 5962985843664808546}
---- !u!114 &1195006272440714522
+--- !u!114 &-4901782595558187642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,13 +182,87 @@ MonoBehaviour:
   m_GameObject: {fileID: 5962985845040392292}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863df726e82ede143b1e8dad82a7fa03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollectionKey: Health
+  proxied: {fileID: 1195006272440714522}
+--- !u!114 &1195006272440714522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962985845040392292}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 050ff37b5550f4b7e9bdf8b985aff484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _developerDescription: 
   _unityEventResponse:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 672736024155512211}
+        m_MethodName: HealthChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _actionResponses: []
+  _replayEventBufferOnRegister: 1
+  _eventReference:
+    _usage: 0
+    _event: {fileID: 0}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+--- !u!114 &5438755863303356224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962985845040392292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 718bddd731f92e241a8b511f2b0aa38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollectionKey: Position
+  proxied: {fileID: -6724529810899315795}
+--- !u!114 &-6724529810899315795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962985845040392292}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439ab88098c3143a992d4119f3bc4a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _developerDescription: 
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 672736024155512211}
+        m_MethodName: PositionChagned
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _actionResponses: []
   _replayEventBufferOnRegister: 1
   _eventReference:
