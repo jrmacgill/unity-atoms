@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -271,6 +272,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.6132076, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -320,7 +322,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _actionResponses:
-  - {fileID: 11400000, guid: 58f78c691d84e44cd84c884aadacf21a, type: 2}
+  - {fileID: 0}
   _replayEventBufferOnRegister: 1
   _eventReference:
     _usage: 0
@@ -465,6 +467,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -590,6 +593,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -711,6 +715,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1483,7 +1488,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1299539884}
-        m_MethodName: SetupHealthBar
+        m_MethodName: SpawnItem
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1515,10 +1520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b416f9725d24fe5b140a75157a371e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemies: {fileID: 11400000, guid: 17112074d7b52489893e5dce0c45df02, type: 2}
-  _healthBarPrefab: {fileID: 5962985845040392292, guid: 26027fcaed24946ab8ccd94d49977476,
+  _items: {fileID: 11400000, guid: 17112074d7b52489893e5dce0c45df02, type: 2}
+  _prefabToSpawn: {fileID: 5962985845040392292, guid: 26027fcaed24946ab8ccd94d49977476,
     type: 3}
-  _canvasRectTransform: {fileID: 1244410474}
 --- !u!1 &1399228590
 GameObject:
   m_ObjectHideFlags: 0
