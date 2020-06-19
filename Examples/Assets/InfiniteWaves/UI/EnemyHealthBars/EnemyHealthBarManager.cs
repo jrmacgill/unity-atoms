@@ -1,112 +1,60 @@
 ﻿using System;
+using System.Linq;
+using Sirenix.Utilities;
+using UniRx;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/// SPDX-License-Identifier: MIT
 namespace UnityAtoms.Examples
 {
-    /// <summary>
-    /// Listens to spawned and dead enemies and create and manage healthbars accordingly.
-    /// </summary>
     public class EnemyHealthBarManager : MonoBehaviour
     {
-        [SerializeField]
-        private AtomList _enemies;
-
-        [SerializeField]
-        private GameObject _healthBarPrefab;
-
-        [SerializeField]
-        private RectTransform _canvasRectTransform;
-
+        [SerializeField] private AtomList _items;
+        [SerializeField] private GameObject _prefabToSpawn;
         void Awake()
         {
-            Assert.IsNotNull(_enemies);
-            Assert.IsNotNull(_healthBarPrefab);
-            Assert.IsNotNull(_canvasRectTransform);
+            Assert.IsNotNull(_items);
+            Assert.IsNotNull(_prefabToSpawn);
         }
-
-        public void SetupHealthBar(AtomBaseVariable enemyData)
+        public void SpawnItem(AtomBaseVariable itemData)
         {
-            var enemyDataCollection = (AtomCollection)enemyData;
-            var healthBar = Instantiate(_healthBarPrefab).GetComponent<HealthBar>();
-            healthBar.transform.SetParent(transform);
+            var itemDataCollection = (AtomCollection) itemData;
+            var spawnedObject = Instantiate(_prefabToSpawn, transform);
+            var proxies = spawnedObject.GetComponents<IVariableProxy>();
 
-            IntVariable health = default;
-            Vector3Variable position = default;
-            Action<Vector3> positionChangedHandler = default;
-            Action<AtomBaseVariable> varAddedHandler = (AtomBaseVariable baseVar) =>
+            void VarAddedHandler(AtomBaseVariable baseVar)
             {
-                switch (baseVar.Id)
-                {
-                    case "Health":
-                        var healthVar = (IntVariable)baseVar;
-                        health = healthVar;
-                        healthBar.InitialHealth.Value = healthVar.InitialValue;
-                        healthVar.Changed.Register(healthBar.HealthChanged);
-                        break;
-                    case "Position":
-                        var positionVar = (Vector3Variable)baseVar;
-                        position = positionVar;
-                        positionChangedHandler = (pos) =>
-                        {
-                            Vector2 viewportPos = Camera.main.WorldToViewportPoint(pos);
-                            Vector2 healthBarPos = new Vector2(
-                                (viewportPos.x * _canvasRectTransform.sizeDelta.x) - (_canvasRectTransform.sizeDelta.x * 0.5f),
-                                (viewportPos.y * _canvasRectTransform.sizeDelta.y) - (_canvasRectTransform.sizeDelta.y * 0.5f) + 38f
-                            );
-                            healthBar.GetComponent<RectTransform>().anchoredPosition = healthBarPos;
-                        };
-                        positionVar.Changed.Register(positionChangedHandler);
-                        break;
-                }
-            };
+                proxies.Where(p => p.key() == baseVar.Id).ForEach(p => p.registerMe(baseVar));
+            }
 
-            Action<AtomBaseVariable> varRemovedHandler = (AtomBaseVariable baseVar) =>
+            void VarRemovedHandler(AtomBaseVariable baseVar)
             {
-                switch (baseVar.Id)
-                {
-                    case "Health":
-                        var healthVar = (IntVariable)baseVar;
-                        healthVar.Changed.Unregister(healthBar.HealthChanged);
-                        break;
-                    case "Position":
-                        var positionVar = (Vector3Variable)baseVar;
-                        positionVar.Changed.Unregister(positionChangedHandler);
-                        break;
-                }
-            };
+                proxies.Where(p => p.key() == baseVar.Id).ForEach(p => p.unregisterMe(baseVar));
+            }
 
-            enemyDataCollection.Added.Register(varAddedHandler);
-            enemyDataCollection.Removed.Register(varRemovedHandler);
+            itemDataCollection.Added.Register(VarAddedHandler);
+            itemDataCollection.Removed.Register(VarRemovedHandler);
 
-            Action<AtomBaseVariable> enemyDataRemovedHandler = default;
-            enemyDataRemovedHandler = (enemyDataToBeRemoved) =>
+            Action<AtomBaseVariable> itemDataRemovedHandler = default;
+            itemDataRemovedHandler = (itemDataToBeRemoved) =>
             {
-                if (enemyDataToBeRemoved == enemyData)
+                if (itemDataToBeRemoved == itemData)
                 {
-                    enemyDataCollection.Added.Unregister(varAddedHandler);
-                    enemyDataCollection.Removed.Unregister(varRemovedHandler);
-                    _enemies.Removed.Unregister(enemyDataRemovedHandler);
+                    itemDataCollection.Added.Unregister(VarAddedHandler);
+                    itemDataCollection.Removed.Unregister(VarRemovedHandler);
+                    _items.Removed.Unregister(itemDataRemovedHandler);
 
-                    if (healthBar != null && healthBar.gameObject != null)
+                    if (spawnedObject != null && spawnedObject.gameObject != null)
                     {
-                        if (health != null)
-                        {
-                            health.Changed.Unregister(healthBar.HealthChanged);
-                        }
-                        else if (position != null)
-                        {
-                            position.Changed.Unregister(positionChangedHandler);
-                        }
-
-                        Destroy(healthBar.gameObject);
+                        Destroy(spawnedObject.gameObject);
                     }
-
                 }
             };
-            _enemies.Removed.Register(enemyDataRemovedHandler);
+            _items.Removed.Register(itemDataRemovedHandler);
         }
     }
 }
