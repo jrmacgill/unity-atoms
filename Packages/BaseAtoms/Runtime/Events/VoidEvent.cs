@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 namespace UnityAtoms.BaseAtoms
 {
     /// <summary>
@@ -7,11 +8,5 @@ namespace UnityAtoms.BaseAtoms
     /// </summary>
     [EditorIcon("atom-icon-cherry")]
     [CreateAssetMenu(menuName = "Unity Atoms/Events/Void", fileName = "VoidEvent")]
-    public sealed class VoidEvent : AtomEvent<Void>
-    {
-        public override void Raise()
-        {
-            Raise(new Void());
-        }
-    }
+    public sealed class VoidEvent : AtomEvent<Void> { }
 }
