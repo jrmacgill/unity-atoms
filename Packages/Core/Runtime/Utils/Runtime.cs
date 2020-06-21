@@ -31,7 +31,12 @@
         /// <returns>`true` if we are working in the Unity Atoms source library / repo, otherwise `false`.</returns>
         public static bool IsUnityAtomsRepo
         {
-            get => System.Environment.CurrentDirectory.Contains("unity-atoms/Examples");
+            get
+            {
+                bool a = System.Environment.CurrentDirectory.Contains("unity-atoms/Examples");
+                bool b = System.Environment.CurrentDirectory.Contains("unity-atoms\\Examples");
+                return a || b;
+            }
         }
     }
 }
